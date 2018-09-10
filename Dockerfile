@@ -29,14 +29,14 @@ RUN set -ex ; \
 	; \
 	rm -rf /var/lib/apt/lists/* ;
 
-ENV GPG_KEY 0x0D96DF4D4110E5C43FBFB17F2D347EA6AA65421D
+ENV GPG_KEY 0D96DF4D4110E5C43FBFB17F2D347EA6AA65421D
 ENV PYTHON_VERSION 3.6.4
 
 RUN set -ex ;\
 	wget -O python.tar.xz "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz" ; \
 	wget -O python.tar.xz.asc "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz.asc" ; \
 	export GNUPGHOME="$(mktemp -d)" ; \
-	gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$GPG_KEY" ; \
+	gpg --keyserver keyserver.ubuntu.com --recv-keys "$GPG_KEY" ; \
 	gpg --batch --verify python.tar.xz.asc python.tar.xz ; \
 	{ command -v gpgconf > /dev/null && gpgconf --kill all || :; } ; \
 	rm -rf "$GNUPGHOME" python.tar.xz.asc ; \
