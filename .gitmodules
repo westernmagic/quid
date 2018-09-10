@@ -1,0 +1,21 @@
+[submodule "cirq/Cirq"]
+	path = cirq/Cirq
+	url = https://github.com/quantumlib/Cirq
+[submodule "projectq/ProjectQ"]
+	path = projectq/ProjectQ
+	url = https://github.com/ProjectQ-Framework/ProjectQ.git
+[submodule "qiskit/qiskit-tutorial"]
+	path = qiskit/qiskit-tutorial
+	url = https://github.com/Qiskit/qiskit-tutorial.git
+[submodule "qsharp/QuantumKatas"]
+	path = qsharp/QuantumKatas
+	url = https://github.com/Microsoft/QuantumKatas.git
+[submodule "qsharp/Quantum"]
+	path = qsharp/Quantum
+	url = https://github.com/Microsoft/Quantum.git
+[submodule "pyquil/pyquil"]
+	path = pyquil/pyquil
+	url = https://github.com/rigetticomputing/pyquil.git
+[submodule "pyquil/pyquil-quantum-dice"]
+	path = pyquil/pyquil-quantum-dice
+	url = https://github.com/rigetticomputing/pyquil-quantum-dice.git
