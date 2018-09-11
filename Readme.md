@@ -3,7 +3,7 @@
 
 # Installation
 ```
-	docker pull docker pull westernmagic/quid:2018
+	docker pull westernmagic/quid:2018
 	# See docker create --help for details
 	docker create \
 		--interactive \
