@@ -228,6 +228,7 @@ ADD ["pyquil/pyquil-quantum-dice", "tutorial"]
 
 # QuID
 WORKDIR /root
+ADD ["cheatsheet/cheatsheet.pdf", "cheatsheet.pdf"]
 
 ENV DISPLAY :9.0
 CMD \

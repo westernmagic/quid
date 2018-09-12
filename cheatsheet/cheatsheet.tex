@@ -1,0 +1,337 @@
+\documentclass[a4paper, landscape]{article}
+
+\usepackage{geometry}
+\geometry{
+	includeheadfoot,
+	left   = 1cm,
+	right  = 1cm,
+	top    = 1cm,
+	bottom = 1cm
+}
+\usepackage{amsmath}
+
+\usepackage{scrlayer-scrpage}
+\usepackage{ccicons}
+
+\lohead*{Quantum Rosetta}
+\cohead*{}
+\rohead*{}
+\lofoot*{\ccbysa\\Michal Sudwoj \& QuID Team}
+\cofoot*{\thepage}
+\rofoot*{QuID 2018\\v1, 2018-09-12}
+
+\usepackage{fontspec}
+\usepackage{luaotfload}
+\setmainfont{Kannada_MN.ttc}
+\setmonofont{Source Code Pro}
+% \setmathrm{Latin Modern}
+
+\usepackage{xcolor}
+\usepackage{tabu}
+\usepackage{colortbl}
+\usepackage{makecell}
+
+\usepackage{hyperref}
+\usepackage{biblatex}
+\addbibresource{Quantum_Computing.bib}
+\nocite{*}
+
+\usepackage{multicol}
+\usepackage{minted}
+\setminted{
+	autogobble,
+	python3,
+	linenos,
+	tabsize = 2,
+	xleftmargin = 0.75cm
+}
+
+\usepackage{ifthen}
+\provideboolean{grayscale}
+
+% Wikipedia table colors
+\ifthenelse{\boolean{grayscale}}{
+	\usemintedstyle{bw}
+	\def\yes{}
+	\def\part{\cellcolor[gray]{0.8}}
+	\def\no{\cellcolor[gray]{0.6}{\normalfont \textemdash}}
+}{
+	\def\yes{\cellcolor[RGB]{153, 255, 153}}
+	\def\part{\cellcolor[RGB]{255, 255, 187}}
+	\def\no{\cellcolor[RGB]{255, 153, 153}}
+}
+
+\begin{document}
+{\Large Builtins and Primitives}\\
+\begin{tabu}{
+		X[-1]
+		|| >{\texttt\bgroup} X[-1] <{\egroup}
+		|  >{\texttt\bgroup} X[-1] <{\egroup}
+		|  >{\texttt\bgroup} X[-1] <{\egroup}
+		|  >{\texttt\bgroup} X[-1] <{\egroup}
+		|  >{\texttt\bgroup} X[-1] <{\egroup}
+	} \rowfont{\normalfont}
+	Gate                      & Q\#                     & ProjectQ      & Cirq                & Qiskit       & PyQuil       \\ \hline
+	\part $I$                 & \yes  I                 & \no           & \no                 & \yes iden    & \yes I       \\
+	\yes  $H$                 & \yes  H                 & \yes  H       & \yes H              & \yes h       & \yes H       \\
+	\yes  $S$                 & \yes  S                 & \yes  S       & \yes S              & \yes s       & \yes S       \\
+	\yes  $T$                 & \yes  T                 & \yes  T       & \yes T              & \yes t       & \yes T       \\
+	\yes  $X$, NOT            & \yes  X                 & \yes  X       & \yes X              & \yes x       & \yes X       \\
+	\yes  $Y$                 & \yes  Y                 & \yes  Y       & \yes Y              & \yes y       & \yes Y       \\
+	\yes  $Z$                 & \yes  Z                 & \yes  Z       & \yes Z              & \yes z       & \yes Z       \\
+	\yes  $R_x$               & \yes  Rx                & \yes  Rx      & \yes RotXGate       & \yes rx      & \yes Rx      \\
+	\yes  $R_y$               & \yes  Ry                & \yes  Ry      & \yes RotYGate       & \yes ry      & \yes Ry      \\
+	\yes  $R_z$               & \yes  Rz                & \yes  Rz      & \yes RotZGate       & \yes rz      & \yes Rz      \\
+	\yes  $R_\phi$            & \yes  R1                & \yes  R       & \no                 & \yes u\_1    & \yes PHASE   \\ \hline \hline
+	\yes  Measure             & \yes  M                 & \yes  Measure & \yes measure        & \yes measure & \yes MEASURE \\
+	\part Barrier             & \no                     & \yes  Barrier & \no                 & \yes barrier & \no          \\ \hline \hline
+	\yes  CX, CNOT            & \yes  CNOT              & \yes  CNOT    & \yes CNOT           & \yes cx      & \yes CNOT    \\
+	\yes  CCX, CCNOT, Toffoli & \yes  CCNOT             & \yes  Toffoli & \yes CCX, TOFFOLI   & \yes ccx     & \yes CCNOT   \\
+	\yes  SWAP                & \yes  SWAP              & \yes  Swap    & \yes SwapGate       & \yes swap    & \yes SWAP    \\
+	\yes  CZ                  & \part (Controlled Z)    & \yes  CZ      & \yes CZ             & \yes cz      & \yes CZ      \\
+	\yes  CSWAP, Fredkin      & \part (Controlled SWAP) & \part C(Swap) & \yes CSWAP, FREDKIN & \yes cswap   & \yes CSWAP   \\
+	\part CR\textsubscript{z} & \part (Controlled Rz)   & \yes  CRz     & \no                 & \yes crz     & \yes CPHASE  \\
+	\part ISWAP               & \no                     & \no           & \yes ISWAP          & \no          & \yes ISWAP   \\
+	\part QFT                 & \yes  QFT               & \yes  QFT     & \no                 & \no          & \no          \\ \hline \hline
+	Other
+		& HY, RAll0, RAll1
+		& Sdag, Tdag, SqrtX, SqrtSwap, Entangle, TimeEvolution, QubitOperator, PhaseOracle, PermutationOracle, AddConstantModN
+		& Rot11Gate, CCZ
+		& cy, ch, rzz
+		& PSWAP, CPHASE00, CPHASE01, CPHASE10
+	\\
+\end{tabu}
+\vfill
+\printbibliography[heading = none]
+\newpage
+
+{\Large Features} \\
+\begin{tabu}{
+		X[-1]
+		|| >{\texttt\bgroup} X[-1] <{\egroup}
+		|  >{\texttt\bgroup} X[-1] <{\egroup}
+		|  >{\texttt\bgroup} X[-1] <{\egroup}
+		|  >{\texttt\bgroup} X[-1] <{\egroup}
+		|  >{\texttt\bgroup} X[-1] <{\egroup}
+} \rowfont{\normalfont}
+	Operation
+		& Q\#
+		& ProjectQ
+		& Cirq
+		& Qiskit
+		& PyQuil
+	\\ \hline
+	\makecell[l]{Gate from\\matrix}
+		& \no  %TODO
+		& \yes \makecell[l]{
+			G\ \ \ \ \ \ \ \ = BasicGate()\\
+			G.matrix = numpy.matrix(A)
+		}
+		& \yes SingleQubitMatrixGate, TwoQubitMatrixGate
+		& \no
+		& \yes defgate
+	\\ \hline
+	Controlled
+		& \yes (Controlled G)(c, q)
+		& \yes \makecell[l]{
+			C(G) | q\ \ \ \ \ \ \ \# or\\
+			with Control(eng, c):\\
+			\ \ \ \ G | q
+		}
+		& \yes ControlledGate(G)
+		& \yes G.q\_if(q)
+		& \no  %TODO
+	\\ \hline
+	Inverse
+		& \yes (Adjoint G)(q)
+		& \yes  \makecell[l]{
+			with Dagger(eng):\\
+			\ \ \ \ G | q
+		}
+		& \yes G.inverse()
+		& \yes G.inverse()
+		& \yes Program(G(q)).dagger()
+	\\ \hline
+	% $\sqrt{}$
+	% 	& \no
+	% 	& \no
+	% 	& \yes  G ** 0.5
+	% 	& \no
+	% 	& \no
+	% \\ \hline
+	\makecell[l]{Apply to\\many qubits}
+	& \yes ApplyToEach(G, qs)
+		& \yes \makecell[l]{
+			All(G)\ \ \ \ | qs \# or\\
+			Tensor(G) | qs
+		}
+		& \yes G.on\_each(qs)
+		& \yes G(qs)
+		& \no  % TODO
+	\\ \hline
+	\rowfont{\normalfont}
+	Simlators
+		& \yes  local
+		& \yes  local \& cloud
+		& \yes  local
+		& \yes  local \& cloud
+		& \part cloud only
+	\\ \hline
+	\makecell[l]{Execute on real\\quantum computer}
+		& \no  no
+		& \yes IBM
+		& \yes Google
+		& \yes IBM
+		& \yes Rigetti
+	\\ \hline
+	\rowfont{\normalfont}
+	Rotation units
+		& radians
+		& radians
+		& \textbf{half-turns}, radians, degrees
+		& radians
+		& radians
+	\\ \hline
+	\rowfont{\normalfont}
+	Integrations
+		&
+		& Fermilib, OpenFermion
+		& OpenFermion, QAsm
+		& Qiskit-Aqua, QAsm
+		& OpenFermion
+	\\
+\end{tabu}
+
+\vspace{0.5cm}
+{\Large Code examples} \\
+\begin{tabu*}{ X[-1] | X[-1] }
+	% TODO: write custom highlighter
+	\begin{minted}{csharp}
+		// Q#
+		// Circuit.qs
+		namespace MyProgram {
+		  open Microsoft.Quantum.Primitive;
+		  open Microsoft.Quantum.Canon;
+
+		  operation Circuit(q : Qubit) : (Result) {
+		    body {
+		      H(q);
+		      let result = M(q);
+		      return result;
+		    }
+		    // adjoint            auto;
+		    // controlled         auto;
+		    // controlled adjoint auto;
+		  }
+		}
+	\end{minted}
+	&
+	\begin{minted}{csharp}
+		// Q#
+		// Driver.cs
+		using Microsoft.Quantum.Simulation.Core;
+		using Microsoft.Quantum.Simulation.Simulators;
+
+		namespace MyProgram {
+		  class Driver {
+		    static void Main(string[] args) {
+		      using (var sim = new QuantumSimulator()) {
+		        var result = Circuit.run(sim, 1, Result.Zero).Result;
+		        System.Console.WriteLine($"Measured: {result}");
+		      }
+		    }
+		  }
+		}
+	\end{minted}
+\end{tabu*}
+
+\newpage
+
+\begin{tabu*}{ X[1.25] | X[1] }
+	\begin{minted}{python}
+		# ProjectQ
+		from projectq     import MainEngine
+		from projectq.ops import *
+
+
+		eng = MainEngine()
+		q   = eng.allocate_qubit()
+
+
+		H       | q
+		Measure | q
+
+		eng.flush()
+
+
+		print("Measured: {}".format(
+		    int(q)
+		))
+	\end{minted}
+	&
+	\begin{minted}{python}
+		# Cirq
+		from cirq import *
+
+
+
+		q       = GridQubit(0, 0)
+		circuit = Circuit()
+
+
+		circuit.append([H(q)])
+		circuit.append([measure(q, key = "c")])
+
+		sim    = google.XmonSimulator()
+		result = sim.run(circuit)
+
+		print("Measured: {}".format(
+		    int(result.measurements["c"][0,0])
+		))
+	\end{minted}
+	\\ \hline
+	\begin{minted}{python}
+		# Qiskit
+		from qiskit import *
+
+
+
+		q       = QuantumRegister(1)
+		c       = ClassicalRegister(1)
+		circuit = QuantumCircuit(q, c)
+
+		circuit.h(q)
+		circuit.measure(q, c)
+
+		sim    = execute(circuit, "local_qasm_simulator", shots = 1)
+		result = sim.result()
+
+		print("Measured: {}".format(
+		    list(result.get_counts())[0]
+		))
+	\end{minted}
+	&
+	\begin{minted}{python}
+		# PyQuil
+		from pyquil.quil  import Program
+		from pyquil.gates import *
+		from pyquil.api   import QVMConnection
+
+		program = Program()
+
+
+
+		program.inst(H(0))
+		program.inst(MEASURE(0, 0))
+
+		qvm    = QVMConnection()
+		result = qvm.run(program, [0])
+
+		print(result)
+	\end{minted}
+	\\
+\end{tabu*}
+
+\newpage
+
+\end{document}
