@@ -18,7 +18,7 @@
 \rohead*{}
 \lofoot*{\ccbysa\\Michal Sudwoj \& QuID Team}
 \cofoot*{\thepage}
-\rofoot*{QuID 2018\\v1, 2018-09-12}
+\rofoot*{QuID 2018\\v1.1, 2018-09-12}
 
 \usepackage{fontspec}
 \usepackage{luaotfload}
@@ -196,27 +196,33 @@
 	Integrations
 		&
 		& Fermilib, OpenFermion
-		& OpenFermion, QAsm
-		& Qiskit-Aqua, QAsm
+		& OpenFermion, OpenQAsm
+		& Qiskit-Aqua, OpenQAsm
 		& OpenFermion
 	\\
 \end{tabu}
 
 \vspace{0.5cm}
-{\Large Code examples} \\
+%{\Large Code examples} \\
 \begin{tabu*}{ X[-1] | X[-1] }
 	% TODO: write custom highlighter
 	\begin{minted}{csharp}
 		// Q#
 		// Circuit.qs
-		namespace MyProgram {
+		namespace Circuit {
 		  open Microsoft.Quantum.Primitive;
 		  open Microsoft.Quantum.Canon;
 
-		  operation Circuit(q : Qubit) : (Result) {
+		  operation Circuit() : (Int) {
 		    body {
-		      H(q);
-		      let result = M(q);
+		      mutable result = 0;
+		      using (q = Qubit[1]) {
+		        H(q[0]);
+		        if (M(q[0]) == One) {
+		          set result = 1;
+		        }
+		        Set(Zero, q[0]);
+		      }
 		      return result;
 		    }
 		    // adjoint            auto;
@@ -232,11 +238,11 @@
 		using Microsoft.Quantum.Simulation.Core;
 		using Microsoft.Quantum.Simulation.Simulators;
 
-		namespace MyProgram {
+		namespace Circuit {
 		  class Driver {
 		    static void Main(string[] args) {
 		      using (var sim = new QuantumSimulator()) {
-		        var result = Circuit.run(sim, 1, Result.Zero).Result;
+		        var result = Circuit.Run(sim).Result;
 		        System.Console.WriteLine($"Measured: {result}");
 		      }
 		    }
@@ -244,6 +250,22 @@
 		}
 	\end{minted}
 \end{tabu*}
+
+\begin{minted}{xml}
+	<!-- MyProgram.csproj -->
+	<Project Sdk="Microsoft.NET.Sdk">
+	  <PropertyGroup>
+	    <OutputType>Exe</OutputType>
+	    <TargetFramework>netcoreapp2.1</TargetFramework>
+	    <RootNamespace>MyProgram</RootNamespace>
+	  </PropertyGroup>
+
+	  <ItemGroup>
+	    <PackageReference Include="Microsoft.Quantum.Canon"           Version="0.2.1809.701-preview" />
+	    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.2.1809.701-preview" />
+	  </ItemGroup>
+	</Project>
+\end{minted}
 
 \newpage
 
