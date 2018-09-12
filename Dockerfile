@@ -200,7 +200,7 @@ ADD ["cirq/Cirq/examples",   "examples"]
 # Qiskit
 WORKDIR /root/qiskit
 RUN set -ex ; \
-	pip install --no-cache-dir -I \
+	pip install --no-cache-dir \
 		qiskit==0.5.7 \
 		qiskit-aqua==0.2.0 \
 		jupyter \
@@ -209,6 +209,8 @@ EXPOSE 8888
 
 ADD ["https://raw.githubusercontent.com/Qiskit/qiskit-terra/0.5.7/Qconfig.py.default", "Qconfig.py"]
 ADD ["qiskit/qiskit-tutorial", "tutorial"]
+ADD ["qiskit/qiskit_tutorial", "tutorial2"]
+ADD ["qiskit/aqua-tutorials",  "tutorial-aqua"]
 
 # Rigetti Forest / PyQuil
 WORKDIR /root/pyquil

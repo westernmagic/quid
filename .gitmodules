@@ -19,3 +19,9 @@
 [submodule "pyquil/pyquil-quantum-dice"]
 	path = pyquil/pyquil-quantum-dice
 	url = https://github.com/rigetticomputing/pyquil-quantum-dice.git
+[submodule "qiskit/qiskit_tutorial"]
+	path = qiskit/qiskit_tutorial
+	url = https://github.com/stefan-woerner/qiskit_tutorial.git
+[submodule "qiskit/aqua-tutorials"]
+	path = qiskit/aqua-tutorials
+	url = https://github.com/Qiskit/aqua-tutorials.git
