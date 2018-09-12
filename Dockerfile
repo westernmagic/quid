@@ -204,7 +204,16 @@ RUN set -ex ; \
 		qiskit==0.5.7 \
 		qiskit-aqua==0.2.0 \
 		jupyter \
-	;
+	; \
+	apt-get update ; \
+	apt-get install -y --no-install-recommends \
+		texlive-latex-base \
+		texlive-latex-extra \
+		texlive-pictures \
+		poppler-utils \
+	; \
+	rm -rf /var/lib/apt/lists/* ;
+
 EXPOSE 8888
 
 ADD ["https://raw.githubusercontent.com/Qiskit/qiskit-terra/0.5.7/Qconfig.py.default", "Qconfig.py"]
