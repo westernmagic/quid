@@ -1,5 +1,5 @@
 # Quantum Information for Developers
-![Docker Build Status](https://img.shields.io/docker/build/jrottenberg/ffmpeg.svg)
+[![Docker Build Status](https://img.shields.io/docker/build/westernmagic/quid.svg)](https://hub.docker.com/r/westernmagic/quid/)
 
 # Installation
 ```
